@@ -22,4 +22,4 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: gauravsingh640/contact:latest
+        tags: gauravsingh640/r/contact

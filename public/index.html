@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Contact App</h1>
+    <input type="text" id="username" placeholder="Enter username" />
+    <div class="buttons">
+      <button onclick="addUser()">Add Contact</button>
+      <button onclick="showContacts()">Show All Contacts</button>
+    </div>
+    <div id="contact-list"></div>
+  </div>
+
+  <script>
+    function addUser() {
+      const username = document.getElementById('username').value;
+      fetch('/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username })
+      })
+      .then(res => res.text())
+      .then(alert)
+      .catch(console.error);
+    }
+
+    function showContacts() {
+      fetch('/contacts')
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById('contact-list');
+          list.innerHTML = '<h3>Contacts:</h3><ul>' +
+            data.map(c => `<li>${c.username}</li>`).join('') +
+            '</ul>';
+        })
+        .catch(console.error);
+    }
+  </script>
+</body>
+</html>
